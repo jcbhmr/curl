@@ -61,6 +61,7 @@ jobs:
       - run: |
           cmake \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DBUILD_TESTING=NO \
             -DBUILD_SHARED_LIBS=OFF \
             -DBUILD_STATIC_LIBS=ON \
             -DBUILD_STATIC_CURL=ON \
@@ -73,6 +74,7 @@ jobs:
           name: curl-${{ matrix.target }}
           path: stage
   cmake-build-unknown-unknown-cosmo:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -104,6 +106,7 @@ jobs:
             -DCMAKE_AR="$(command -v cosmoar)" \
             -DCMAKE_RANLIB="" \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DBUILD_TESTING=NO \
             -DBUILD_SHARED_LIBS=OFF \
             -DBUILD_STATIC_LIBS=ON \
             -DBUILD_STATIC_CURL=ON \
@@ -114,4 +117,41 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: curl-unknown-unknown-cosmo
+          path: stage
+  cmake-build-wasm32-wasmer-wasi:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jwlawson/actions-setup-cmake@v2
+      - uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: 18
+          directory: ~/llvm
+      - run: |
+          cd ~
+          mkdir wasix-libc
+          cd wasix-libc
+          wget https://github.com/wasix-org/wasix-libc/releases/download/v2024-07-08.1/sysroot.tar.gz
+          tar -xzf sysroot.tar.gz
+      - run: |
+          cmake --toolchain ~/wasix-libc/wasix-sysroot/clang-wasix.cmake_toolchain \
+            -DCMAKE_SYSROOT="$HOME/wasix-libc/wasix-sysroot" \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DBUILD_TESTING=NO \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DBUILD_STATIC_LIBS=ON \
+            -DBUILD_STATIC_CURL=ON \
+            -DOPENSSL_INCLUDE_DIR=/PATH/TO/openssl/include \
+            -DOPENSSL_CRYPTO_LIBRARY=/PATH/TO/openssl/libcrypto.a \
+            -DOPENSSL_SSL_LIBRARY=/PATH/TO/openssl/libssl.a \
+            -DZLIB_LIBRARY=/PATH/TO/zlib/libz.a \
+            -DZLIB_INCLUDE_DIR=/PATH/TO/zlib/
+            -B build
+      - run: cmake --build build --config RelWithDebInfo
+      # TODO: Use CPack
+      - run: cmake --install build --config RelWithDebInfo --prefix stage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: curl-wasm32-wasmer-wasi
           path: stage
