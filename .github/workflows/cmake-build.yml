@@ -48,6 +48,7 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF \
             -DBUILD_STATIC_LIBS=ON \
             -DBUILD_STATIC_CURL=ON \
+            ${{ (contains(matrix.target, 'windows') && '-DCMAKE_RELWITHDEBINFO_POSTFIX=""') || '' }} \
             -B build
       - run: cmake --build build --config RelWithDebInfo
       # TODO: Use CPack
