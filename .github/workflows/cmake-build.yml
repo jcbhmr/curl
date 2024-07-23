@@ -30,15 +30,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-13, macos-latest, windows-latest]
+        include:
+          - { os: ubuntu-20.04, target: x86_64-unknown-linux-gnu }
+          - { os: macos-13, target: x86_64-apple-darwin }
+          - { os: macos-latest, target: aarch64-apple-darwin }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc }
     defaults:
       run:
         shell: bash
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
       - uses: jwlawson/actions-setup-cmake@v2
       - run: |
           cmake \
@@ -52,6 +54,44 @@ jobs:
       - run: cmake --install build --prefix stage
       - uses: actions/upload-artifact@v4
         with:
-          # name: curl-${{ matrix.target }}
-          name: curl-${{ matrix.os }}
+          name: curl-${{ matrix.target }}
+          path: stage
+  cmake-build-unknown-unknown-cosmo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jwlawson/actions-setup-cmake@v2
+      - run: |
+          cd ~
+          mkdir -p cosmocc
+          cd cosmocc
+          wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
+          unzip cosmocc.zip
+          echo "$HOME/cosmocc/bin" >> "$GITHUB_PATH"
+      - shell: cp {0} ./cosmocc-override.cmake
+        run: |
+          set(CMAKE_ASM_OUTPUT_EXTENSION .o)
+          set(CMAKE_C_OUTPUT_EXTENSION .o)
+          set(CMAKE_CXX_OUTPUT_EXTENSION .o)
+      - run: |
+          ASM="cosmocc" \
+          CC="cosmocc" \
+          CXX="cosmoc++" \
+          cmake \
+            -DCMAKE_SYSTEM_NAME="Generic" \
+            -DCMAKE_SYSTEM_PROCESSOR="" \
+            -DCMAKE_USER_MAKE_RULES_OVERRIDE="$PWD/cosmocc-override.cmake" \
+            -DCMAKE_AR="$(command -v cosmoar)" \
+            -DCMAKE_RANLIB="" \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DBUILD_SHARED_LIBS=OFF \
+            -DBUILD_STATIC_LIBS=ON \
+            -DBUILD_STATIC_CURL=ON \
+            -B build
+      - run: cmake --build build --config RelWithDebInfo
+      # TODO: Use CPack
+      - run: cmake --install build --prefix stage
+      - uses: actions/upload-artifact@v4
+        with:
+          name: curl-unknown-unknown-cosmo
           path: stage
