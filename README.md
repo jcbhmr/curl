@@ -71,14 +71,8 @@ Here's some relevant URLs that you might use in your code to fetch (or store) th
 ```
 https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-aarch64-apple-darwin.tar.gz
 https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-x86_64-apple-darwin.tar.gz
-https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-aarch64-unknown-linux-gnu.tar.gz
-https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-aarch64-unknown-linux-musl.tar.gz
 https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-x86_64-unknown-linux-gnu.tar.gz
-https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-x86_64-unknown-linux-musl.tar.gz
 https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-x86_64-pc-windows-msvc.zip
-https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-x86_64-pc-windows-gnu.zip
-https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-unknown-unknown-cosmo.zip
-https://github.com/jcbhmr/curl/releases/download/curl-8_8_0/curl-wasm32-wasmer-wasi.zip
 ```
 
 ℹ This project tries to stay up-to-date with [the latest curl/curl release](https://github.com/curl/curl/releases/latest) and also mirrors the release tag convention of `curl-X_Y_Z` tags.
@@ -88,9 +82,9 @@ You are encouraged to pin to a particular version and then update periodically.
 There's also nightly builds if you're interested. I don't recommend using them but I wanted to highlight how cool😎 the [nightly.link](https://nightly.link/) service is for this kind of thing! 🤩
 
 ```
-https://nightly.link/jcbhmr/curl/workflows/cmake-build/master/curl-x86_64-unknown-linux-gnu.zip
 https://nightly.link/jcbhmr/curl/workflows/cmake-build/master/curl-aarch64-apple-darwin.zip
 https://nightly.link/jcbhmr/curl/workflows/cmake-build/master/curl-x86_64-apple-darwin.zip
+https://nightly.link/jcbhmr/curl/workflows/cmake-build/master/curl-x86_64-unknown-linux-gnu.zip
 https://nightly.link/jcbhmr/curl/workflows/cmake-build/master/curl-x86_64-pc-windows-msvc.zip
 ```
 
