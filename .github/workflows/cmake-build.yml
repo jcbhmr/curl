@@ -68,7 +68,7 @@ jobs:
       - run: cmake --build build --config RelWithDebInfo
       - run: tree -Ca build
       # TODO: Use CPack
-      - run: cmake --install build --prefix stage
+      - run: cmake --install build --config RelWithDebInfo --prefix stage
       - run: tree -Ca stage
       - uses: actions/upload-artifact@v4
         with:
@@ -113,7 +113,7 @@ jobs:
       - run: cmake --build build --config RelWithDebInfo
       - run: tree -Ca build
       # TODO: Use CPack
-      - run: cmake --install build --prefix stage
+      - run: cmake --install build --config RelWithDebInfo --prefix stage
       - run: tree -Ca stage
       - uses: actions/upload-artifact@v4
         with:
