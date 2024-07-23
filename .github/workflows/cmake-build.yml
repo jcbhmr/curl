@@ -31,16 +31,6 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-13, macos-latest, windows-latest]
-        # https://gist.github.com/jcbhmr/ff6abde60ae32de0e33f93ed7445e78e
-        # include:
-        #   - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: x86_64, target: x86_64-linux-gnu }
-        #   - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: x86_64, target: x86_64-linux-musl }
-        #   - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: aarch64, target: aarch64-linux-gnu }
-        #   - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: aarch64, target: aarch64-linux-musl }
-        #   - { os: macos-latest, cmake-system-name: Darwin, cmake-system-processor: aarch64, target: aarch64-macos-none }
-        #   - { os: macos-13, cmake-system-name: Darwin, cmake-system-processor: x86_64, target: x86_64-macos-none }
-        #   - { os: windows-latest, cmake-system-name: Windows, cmake-system-processor: x86_64, target: x86_64-windows-msvc }
-        #   - { os: windows-latest, cmake-system-name: Windows, cmake-system-processor: x86_64, target: x86_64-windows-gnu }
     defaults:
       run:
         shell: bash
@@ -50,40 +40,15 @@ jobs:
         with:
           submodules: recursive
       - uses: jwlawson/actions-setup-cmake@v2
-      - uses: goto-bus-stop/setup-zig@v2
-      # https://jcbhmr.me/blog/zig-cc-cmake
-      # - run: |
-      #     mkdir -p ~/.local/bin
-      #     echo 'exec zig ar "$@"' > ~/.local/bin/zig-ar
-      #     chmod +x ~/.local/bin/zig-ar
-      #     echo '@zig ar %*' > ~/.local/bin/zig-ar.cmd
-      #     echo 'exec zig ranlib "$@"' > ~/.local/bin/zig-ranlib
-      #     chmod +x ~/.local/bin/zig-ranlib
-      #     echo '@zig ranlib %*' > ~/.local/bin/zig-ranlib.cmd
-      # - run: |
-      #     ASM='zig cc'
-      #     CC='zig cc' \
-      #     CXX='zig c++' \
-      #     cmake \
-      #       -DCMAKE_SYSTEM_NAME='${{ matrix.cmake-system-name }}' \
-      #       -DCMAKE_SYSTEM_PROCESSOR='${{ matrix.cmake-system-processor }}' \
-      #       -DCMAKE_ASM_COMPILER_TARGET='${{ matrix.target }}' \
-      #       -DCMAKE_C_COMPILER_TARGET='${{ matrix.target }}' \
-      #       -DCMAKE_CXX_COMPILER_TARGET='${{ matrix.target }}' \
-      #       -DCMAKE_AR="$HOME/.local/bin/zig-ar" \
-      #       -DCMAKE_RANLIB="$HOME/.local/bin/zig-ranlib" \
-      #       -DBUILD_SHARED_LIBS=OFF \
-      #       -DBUILD_STATIC_LIBS=ON \
-      #       -DBUILD_STATIC_CURL=ON \
-      #       -B build
       - run: |
           cmake \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DBUILD_SHARED_LIBS=OFF \
             -DBUILD_STATIC_LIBS=ON \
             -DBUILD_STATIC_CURL=ON \
             -B build
-      - run: cmake --build build
-      # Prefer CPack but curl doesn't use CPack.
+      - run: cmake --build build --config RelWithDebInfo
+      # TODO: Use CPack
       - run: cmake --install build --prefix stage
       - uses: actions/upload-artifact@v4
         with:
