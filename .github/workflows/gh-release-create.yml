@@ -31,7 +31,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
-      - run: tree -Ca
       - run: |
           for f in *; do
             if [[ $f == *windows* ]]; then
@@ -43,8 +42,11 @@ jobs:
             fi
             rm -rf "$f"
           done
-      - run: tree -Ca
-      - run: gh release create "v$VERSION" ${{ (inputs.draft && '--draft') || '' }} --generate-notes *
+      - run: |
+          gh release create "v$VERSION" \
+            ${{ (inputs.draft && '--draft') || '' }} \
+            --generate-notes \
+            ./*
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
