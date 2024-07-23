@@ -4,7 +4,7 @@ Copyright (C) Jacob Hummer
 SPDX-License-Identifier: curl
 -->
 
-# cURL builder
+# cURL prebuilt
 
 📦 Prebuilt `libcurl.a`, `curl.exe`, `libcurl.so`, etc. \
 🔀 Forked from [curl/curl](https://github.com/curl/curl)
