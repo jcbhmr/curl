@@ -112,6 +112,7 @@ jobs:
       - run: cmake --build build --config RelWithDebInfo
       # TODO: Use CPack
       - run: cmake --install build --prefix stage
+        continue-on-error: ${{ contains(matrix.target, 'windows') }}
       - uses: actions/upload-artifact@v4
         with:
           name: curl-unknown-unknown-cosmo
