@@ -1,0 +1,47 @@
+name: gh release create
+on:
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: ""
+        type: boolean
+        default: false
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  cmake-build:
+    uses: ./.github/workflows/cmake-build.yml
+  get-version:
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: get-version
+        run: |
+          version=$(cat RELEASE-NOTES | grep -Pom1 '\d+\.\d+\.\d+')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+  gh-release-create:
+    needs: [cmake-build, get-version]
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+      - run: tree -Ca
+      - run: |
+          for f in *; do
+            if [[ $f == *windows* ]]; then
+              wd="$PWD"
+              (cd "$f" && zip -r "$wd/$f.zip" .)
+            else
+              wd="$PWD"
+              (cd "$f" && tar -czf "$wd/$f.tar.gz" .)
+            fi
+            rm -rf "$f"
+          done
+      - run: tree -Ca
+      - run: gh release create "v$VERSION" ${{ (inputs.draft && '--draft') || '' }} --generate-notes *
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.get-version.outputs.version }}
