@@ -99,11 +99,9 @@ The `.zip` and `.tar.gz` archives are what was `cmake --install`-ed. The layout 
 ```
 .
 ├── bin/
-│   ├── curl ❓
-│   ├── curl.exe ❓
+│   ├── curl
 │   ├── curl-config
 │   ├── mk-ca-bundle.pl
-│   └── libcurl.dll ❓
 ├── include/
 │   └── curl/
 │       ├── curl.h
@@ -120,11 +118,10 @@ The `.zip` and `.tar.gz` archives are what was `cmake --install`-ed. The layout 
 │   │       └── CURLTargets-relwithdebinfo.cmake
 │   ├── pkgconfig/
 │   │   └── libcurl.pc
-│   ├── libcurl.a ❓
-│   ├── libcurl.lib ❓
-│   ├── libcurl.so ❓
-│   ├── libcurl.so.4 ❓
-│   └── libcurl.so.4.8.0 ❓
+│   ├── libcurl.a
+│   ├── libcurl.so
+│   ├── libcurl.so.4
+│   └── libcurl.so.4.8.0
 └── share/
     └── man/
         ├── man1/
