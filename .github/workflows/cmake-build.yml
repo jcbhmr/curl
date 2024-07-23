@@ -64,12 +64,12 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF \
             -DBUILD_STATIC_LIBS=ON \
             -DBUILD_STATIC_CURL=ON \
-            ${{ (contains(matrix.target, 'windows') && '-DCMAKE_RelWithDebInfo_POSTFIX=""') || '' }} \
             -B build
       - run: cmake --build build --config RelWithDebInfo
+      - run: tree -Ca build
       # TODO: Use CPack
       - run: cmake --install build --prefix stage
-        continue-on-error: ${{ contains(matrix.target, 'windows') }}
+      - run: tree -Ca stage
       - uses: actions/upload-artifact@v4
         with:
           name: curl-${{ matrix.target }}
@@ -111,8 +111,10 @@ jobs:
             -DBUILD_STATIC_CURL=ON \
             -B build
       - run: cmake --build build --config RelWithDebInfo
+      - run: tree -Ca build
       # TODO: Use CPack
       - run: cmake --install build --prefix stage
+      - run: tree -Ca stage
       - uses: actions/upload-artifact@v4
         with:
           name: curl-unknown-unknown-cosmo
