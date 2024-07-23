@@ -1,3 +1,7 @@
+# Copyright (C) Jacob Hummer
+#
+# SPDX-License-Identifier: curl
+
 name: gh release create
 on:
   workflow_dispatch:
