@@ -62,7 +62,6 @@ jobs:
           cmake \
             -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DBUILD_TESTING=NO \
-            -DBUILD_SHARED_LIBS=OFF \
             -DBUILD_STATIC_LIBS=ON \
             -DBUILD_STATIC_CURL=ON \
             -B build
