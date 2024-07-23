@@ -32,14 +32,14 @@ jobs:
       matrix:
         # https://gist.github.com/jcbhmr/ff6abde60ae32de0e33f93ed7445e78e
         include:
-          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: x86_64, target: x86_64-unknown-linux-gnu }
-          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: x86_64, target: x86_64-unknown-linux-musl }
-          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: aarch64, target: aarch64-unknown-linux-gnu }
-          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: aarch64, target: aarch64-unknown-linux-musl }
-          - { os: macos-latest, cmake-system-name: Darwin, cmake-system-processor: aarch64, target: aarch64-apple-darwin }
-          - { os: macos-13, cmake-system-name: Darwin, cmake-system-processor: x86_64, target: x86_64-apple-darwin }
-          - { os: windows-latest, cmake-system-name: Windows, cmake-system-processor: x86_64, target: x86_64-pc-windows-msvc }
-          - { os: windows-latest, cmake-system-name: Windows, cmake-system-processor: x86_64, target: x86_64-pc-windows-gnu }
+          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: x86_64, target: x86_64-linux-gnu }
+          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: x86_64, target: x86_64-linux-musl }
+          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: aarch64, target: aarch64-linux-gnu }
+          - { os: ubuntu-latest, cmake-system-name: Linux, cmake-system-processor: aarch64, target: aarch64-linux-musl }
+          - { os: macos-latest, cmake-system-name: Darwin, cmake-system-processor: aarch64, target: aarch64-macos-none }
+          - { os: macos-13, cmake-system-name: Darwin, cmake-system-processor: x86_64, target: x86_64-macos-none }
+          - { os: windows-latest, cmake-system-name: Windows, cmake-system-processor: x86_64, target: x86_64-windows-msvc }
+          - { os: windows-latest, cmake-system-name: Windows, cmake-system-processor: x86_64, target: x86_64-windows-gnu }
     defaults:
       run:
         shell: bash
