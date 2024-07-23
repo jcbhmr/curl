@@ -68,6 +68,10 @@ jobs:
           wget https://cosmo.zip/pub/cosmocc/cosmocc.zip
           unzip cosmocc.zip
           echo "$HOME/cosmocc/bin" >> "$GITHUB_PATH"
+          sudo wget -O /usr/bin/ape https://cosmo.zip/pub/cosmos/bin/ape-$(uname -m).elf
+          sudo chmod +x /usr/bin/ape
+          sudo sh -c "echo ':APE:M::MZqFpD::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
+          sudo sh -c "echo ':APE-jart:M::jartsr::/usr/bin/ape:' >/proc/sys/fs/binfmt_misc/register"
       - shell: cp {0} ./cosmocc-override.cmake
         run: |
           set(CMAKE_ASM_OUTPUT_EXTENSION .o)
