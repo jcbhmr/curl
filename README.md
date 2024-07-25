@@ -150,17 +150,9 @@ Todos:
 
 The best way to test changes right now is to open a Pull Request and see if the build workflow succeeds.
 
-Make sure **not** to use the GitHub web UI to perform a <kbd>Merge</kbd> (merge commit) from the upstream curl/curl project. We want to _rebase_ and put this repo's changes/patchset on top of any updates.
-
-To perform a rebase merge using the GitHub web UI:
-
-1. Create a new Pull Request from curl/curl `master` ➡ jcbhmr/curl `master`.
-2. **Make sure things still build and work** even with the new upstream changes.
-3. Click the <kbd>🔽</kbd> extra options dropdown on the Merge button. Choose the Rebase option.
-
 To create a release:
 
-1. Rebase against the upstream release tag that corresponds to the release you want to make. Each release of this repository should correspond with a release from curl/curl. curl/curl already nicely configures and sets all the version magic everywhere so we can just take advantage of that.
+1. Merge in the upstream release tag that corresponds to the release you want to make. Each release of this repository should correspond with a release from curl/curl. curl/curl already nicely configures and sets all the version magic everywhere so we can just take advantage of that.
 2. Manually update the few spots where jcbhmr/curl versions are hardcoded. These are: the readme list of release URLs, the readme zip/tarball folder structure.
 3. Manually run the `gh release create` workflow in the Actions tab. Choose `draft: true` first.
 4. Wait and make sure that CI creates the draft release.
